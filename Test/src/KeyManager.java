@@ -1,27 +1,20 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class KeyManager {
-    private List<Integer> keys;
+    private Set<Integer> keys;
     private int minAvaivableKey;
 
     public KeyManager(){
-        keys = new ArrayList<>();
+        keys = new HashSet<>();
         minAvaivableKey = 0;
     }
 
     public int getKey(){
         int originalKey = minAvaivableKey;
         keys.add(minAvaivableKey);
-        boolean isSuccessSet = false;
-        int i = 1;
-        while(!isSuccessSet){
-            if(!keys.contains(minAvaivableKey + i)){
-                minAvaivableKey = minAvaivableKey + i;
-                isSuccessSet = true;
-            }
-            i++;
+        minAvaivableKey++;
+        while(keys.contains(minAvaivableKey)){
+            minAvaivableKey++;
         }
         return originalKey;
     }
@@ -40,8 +33,9 @@ public class KeyManager {
     }
 
     public List<Integer> listAll(){
-        Collections.sort(keys);
-        return keys;
+        List<Integer> list = new ArrayList<>(keys.stream().toList());
+        Collections.sort(list);
+        return list;
     }
 
 }
